@@ -218,7 +218,7 @@ const QuestionDetail = () => {
                         {attachment.mimetype.startsWith('image/') ? (
                           <div className="group cursor-pointer" onClick={() => setSelectedImage(attachment)}>
                             <img
-                              src={`http://localhost:5000/uploads/${attachment.filename}`}
+                              src={`https://h-forum-backend.onrender.com/uploads/${attachment.filename}`}
                               alt={attachment.originalName}
                               className="w-full h-48 object-cover group-hover:opacity-80 transition-opacity"
                             />
@@ -234,7 +234,7 @@ const QuestionDetail = () => {
                               className="w-full h-48 object-cover"
                               preload="metadata"
                             >
-                              <source src={`http://localhost:5000/uploads/${attachment.filename}`} type={attachment.mimetype} />
+                              <source src={`https://h-forum-backend.onrender.com/uploads/${attachment.filename}`} type={attachment.mimetype} />
                               Your browser does not support the video tag.
                             </video>
                             <div className="p-3">
@@ -248,7 +248,7 @@ const QuestionDetail = () => {
                             <p className="text-sm text-white truncate">{attachment.originalName}</p>
                             <p className="text-xs text-purple-300 mb-2">{(attachment.size / 1024 / 1024).toFixed(1)} MB</p>
                             <a
-                              href={`http://localhost:5000/uploads/${attachment.filename}`}
+                              href={`https://h-forum-backend.onrender.com/uploads/${attachment.filename}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-purple-300 hover:text-white text-sm underline"
@@ -434,7 +434,7 @@ const QuestionDetail = () => {
               ✕
             </button>
             <img
-              src={`http://localhost:5000/uploads/${selectedImage.filename}`}
+              src={`https://h-forum-backend.onrender.com/uploads/${selectedImage.filename}`}
               alt={selectedImage.originalName}
               className="max-w-full max-h-full object-contain rounded-lg"
             />
