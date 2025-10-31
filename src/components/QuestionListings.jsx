@@ -41,7 +41,10 @@ const QuestionListings = () => {
         if (location.pathname === '/my-topics' && user) {
           queryParams.author = user.username;
         } else if (params.topicName) {
-          queryParams.topic = params.topicName;
+          // Ensure we're passing the topic slug correctly
+          const topicSlug = params.topicName.toLowerCase().replace(/\s+/g, '-');
+          queryParams.topic = topicSlug;
+          console.log('Filtering by topic:', params.topicName, 'with slug:', topicSlug);
         }
         
         if (filterBy !== 'all') {
@@ -100,7 +103,9 @@ const QuestionListings = () => {
       if (location.pathname === '/my-topics' && user) {
         queryParams.author = user.username;
       } else if (params.topicName) {
-        queryParams.topic = params.topicName;
+        const topicSlug = params.topicName.toLowerCase().replace(/\s+/g, '-');
+        queryParams.topic = topicSlug;
+        console.log('Refreshing with topic slug:', topicSlug);
       }
       
       if (filterBy !== 'all') {
@@ -154,14 +159,22 @@ const QuestionListings = () => {
 
       <div className="space-y-4 sm:space-y-6">
         {questions.length === 0 ? (
-          <div className="text-center py-8 sm:py-12">
-            <MessageSquare size={48} className="mx-auto text-gray-400 mb-4" />
-            <h3 className="text-base sm:text-lg font-medium text-gray-600 mb-2">
+          <div className="text-center py-8 sm:py-12 bg-white/10 backdrop-blur-sm rounded-xl p-6">
+            <MessageSquare size={64} className="mx-auto text-gray-400 mb-4" />
+            <h3 className="text-xl sm:text-2xl font-medium text-gray-700 mb-3">
               {params.topicName ? `No current posts for ${params.topicName.replace(/-/g, ' ')}` : 'No questions found'}
             </h3>
-            <p className="text-sm sm:text-base text-gray-500">
-              {params.topicName ? 'Be the first to start a discussion on this topic!' : 'Be the first to ask a question!'}
+            <p className="text-md sm:text-lg text-gray-500 mb-6">
+              {params.topicName 
+                ? `Be the first to start a discussion about ${params.topicName.replace(/-/g, ' ')}!` 
+                : 'Be the first to ask a question!'}
             </p>
+            <Link
+              to="/ask-question"
+              className="inline-block bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors text-lg"
+            >
+              Ask a Question
+            </Link>
           </div>
         ) : (
           questions.map((question) => (
