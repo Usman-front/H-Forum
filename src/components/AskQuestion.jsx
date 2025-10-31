@@ -27,74 +27,10 @@ const AskQuestion = () => {
   useEffect(() => {
     const fetchTopics = async () => {
       try {
-        // Debug the API response
-        console.log('Fetching topics...');
         const response = await topicsAPI.getTopics();
-        console.log('Topics API response:', response);
-        
-        if (response && response.topics && response.topics.length > 0) {
-          setTopics(response.topics);
-          console.log('Topics set successfully:', response.topics);
-        } else {
-          console.error('No topics found in response:', response);
-          // Fallback to popular topics if main endpoint returns empty
-          const popularResponse = await topicsAPI.getPopularTopics(20);
-          console.log('Popular topics response:', popularResponse);
-          
-          if (popularResponse && popularResponse.topics && popularResponse.topics.length > 0) {
-            setTopics(popularResponse.topics);
-            console.log('Popular topics set successfully:', popularResponse.topics);
-          } else {
-            // Hardcoded fallback topics based on user requirements
-            const fallbackTopics = [
-              { _id: 'technology', name: 'Technology', slug: 'technology' },
-              { _id: 'climate', name: 'Climate', slug: 'climate' },
-              { _id: 'space-exploration', name: 'Space exploration', slug: 'space-exploration' },
-              { _id: 'ai-and-ethics', name: 'AI and ethics', slug: 'ai-and-ethics' },
-              { _id: 'social-media', name: 'Social media', slug: 'social-media' },
-              { _id: 'mental-health', name: 'Mental health', slug: 'mental-health' },
-              { _id: 'education', name: 'Education', slug: 'education' },
-              { _id: 'health', name: 'Health', slug: 'health' },
-              { _id: 'culture', name: 'Culture', slug: 'culture' },
-              { _id: 'politics', name: 'Politics', slug: 'politics' },
-              { _id: 'sports', name: 'Sports', slug: 'sports' },
-              { _id: 'public-opinion', name: 'Public opinion', slug: 'public-opinion' },
-              { _id: 'history', name: 'History', slug: 'history' },
-              { _id: 'economy', name: 'Economy', slug: 'economy' },
-              { _id: 'business', name: 'Business', slug: 'business' },
-              { _id: 'science', name: 'Science', slug: 'science' },
-              { _id: 'philosophy', name: 'Philosophy', slug: 'philosophy' },
-              { _id: 'art', name: 'Art', slug: 'art' }
-            ];
-            setTopics(fallbackTopics);
-            console.log('Using fallback topics:', fallbackTopics);
-          }
-        }
+        setTopics(response.topics || []);
       } catch (err) {
         console.error('Error fetching topics:', err);
-        // Hardcoded fallback topics based on user requirements
-        const fallbackTopics = [
-          { _id: 'technology', name: 'Technology', slug: 'technology' },
-          { _id: 'climate', name: 'Climate', slug: 'climate' },
-          { _id: 'space-exploration', name: 'Space exploration', slug: 'space-exploration' },
-          { _id: 'ai-and-ethics', name: 'AI and ethics', slug: 'ai-and-ethics' },
-          { _id: 'social-media', name: 'Social media', slug: 'social-media' },
-          { _id: 'mental-health', name: 'Mental health', slug: 'mental-health' },
-          { _id: 'education', name: 'Education', slug: 'education' },
-          { _id: 'health', name: 'Health', slug: 'health' },
-          { _id: 'culture', name: 'Culture', slug: 'culture' },
-          { _id: 'politics', name: 'Politics', slug: 'politics' },
-          { _id: 'sports', name: 'Sports', slug: 'sports' },
-          { _id: 'public-opinion', name: 'Public opinion', slug: 'public-opinion' },
-          { _id: 'history', name: 'History', slug: 'history' },
-          { _id: 'economy', name: 'Economy', slug: 'economy' },
-          { _id: 'business', name: 'Business', slug: 'business' },
-          { _id: 'science', name: 'Science', slug: 'science' },
-          { _id: 'philosophy', name: 'Philosophy', slug: 'philosophy' },
-          { _id: 'art', name: 'Art', slug: 'art' }
-        ];
-        setTopics(fallbackTopics);
-        console.log('Using fallback topics due to error:', fallbackTopics);
       }
     };
     
@@ -244,21 +180,12 @@ const AskQuestion = () => {
               required
             >
               <option value="">Select a topic</option>
-              {topics && topics.length > 0 ? (
-                topics.map((topic) => (
-                  <option key={topic._id || topic.slug} value={topic.slug}>
-                    {topic.name}
-                  </option>
-                ))
-              ) : (
-                <option value="" disabled>Loading topics...</option>
-              )}
+              {topics.map((topic) => (
+                <option key={topic._id} value={topic.slug}>
+                  {topic.name}
+                </option>
+              ))}
             </select>
-            {topics && topics.length === 0 && (
-              <p className="text-xs text-purple-200 mt-1">
-                No topics available. Please try refreshing the page.
-              </p>
-            )}
           </div>
 
           <div>
